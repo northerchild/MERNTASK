@@ -8,7 +8,7 @@ export const Tareas = ({tarea}) => {
 
     //Obtener la función del contex de tarea
     const tareasContext = useContext(TareasContext);
-    const {eliminarTarea,obtenerTareas,cambiarEstadoTarea,guardarTareaActual} = tareasContext;
+    const {eliminarTarea,obtenerTareas,actualizarTarea,guardarTareaActual} = tareasContext;
 
     //Extraer el proyecto 
     const [proyectoActual]  = proyecto;
@@ -26,7 +26,7 @@ export const Tareas = ({tarea}) => {
         }else{
             tarea.estado = true
         }
-        cambiarEstadoTarea(tarea);
+        actualizarTarea(tarea);
     }
 
     //funcion para editar
