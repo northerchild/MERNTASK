@@ -15,7 +15,7 @@ export const Tareas = ({tarea}) => {
 
     //Función para eliminar la tarea
     const tareaEliminar = id =>{
-        eliminarTarea(id)
+        eliminarTarea(id, proyectoActual._id)
         obtenerTareas(proyectoActual.id);
     }
 
@@ -61,7 +61,7 @@ export const Tareas = ({tarea}) => {
                         onClick={()=> seleccionarTarea(tarea)}>Editar</button>
                 <button type="button" 
                         className="btn btn-secundario"
-                        onClick={()=> tareaEliminar(tarea.id)}>Eliminar</button>
+                        onClick={()=> tareaEliminar(tarea._id)}>Eliminar</button>
             </div>
         </li>
     )

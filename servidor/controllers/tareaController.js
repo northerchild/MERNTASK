@@ -82,7 +82,7 @@ exports.actualizarTarea = async (req,res) =>{
 // Elimina una tarea
 exports.eliminarTarea = async (req, res) => {
     try {
-        const {proyecto,nombre,estado} = req.body;
+        const {proyecto,nombre,estado} = req.query;
         //Revisar si la tarea existe
         let tarea = await Tarea.findById(req.params.id);
         if(!tarea){
