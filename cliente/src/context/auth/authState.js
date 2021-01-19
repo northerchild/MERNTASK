@@ -1,4 +1,4 @@
-import React,{useReducer,useContext,useEffect} from 'react';
+import React,{useReducer} from 'react';
 import authContext from './authContext';
 import AuthReducer from './authReducer';
 import clienteAxios from '../../config/axios';
