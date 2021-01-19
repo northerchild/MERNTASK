@@ -9,26 +9,11 @@ import {TAREAS_PROYECTO,
         TAREA_ACTUAL,
         ACTUALIZAR_TAREA,
         LIMPIAR_TAREA} from '../../types';
-
-import { v4 as uuidv4 } from 'uuid';
+import clienteAxios from '../../config/axios';
 
 const TareasState = props =>{
     const initialState = {
-        tareas:[
-            {id:1,nombre:'Elegir Plataforma',estado:true, proyectoId:1},
-            {id:2,nombre:'Elegir Colores',estado:false, proyectoId:2},
-            {id:3,nombre:'Elegir Plataforma de pago',estado:false, proyectoId:3},
-            {id:4,nombre:'Elegir hosting',estado:true, proyectoId:4},
-            {id:5,nombre:'Elegir Plataforma',estado:true, proyectoId:2},
-            {id:6,nombre:'Elegir Colores',estado:false, proyectoId:3},
-            {id:7,nombre:'Elegir Plataforma de pago',estado:false, proyectoId:1},
-            {id:8,nombre:'Elegir hosting',estado:true, proyectoId:4},
-            {id:9,nombre:'Elegir Plataforma',estado:true, proyectoId:4},
-            {id:10,nombre:'Elegir Colores',estado:false, proyectoId:3},
-            {id:11,nombre:'Elegir Plataforma de pago',estado:false, proyectoId:2},
-            {id:12,nombre:'Elegir hosting',estado:true, proyectoId:1},
-        ],
-        tareasproyecto:null,
+        tareasproyecto:[],
         errortarea:false,
         tareaseleccionada:null,
     }
@@ -37,20 +22,28 @@ const TareasState = props =>{
     //Crear las funciones
 
     //Obtener las tareas de un proyecto 
-    const obtenerTareas = proyectoId =>{
-        dispatch({
-            type: TAREAS_PROYECTO,
-            payload: proyectoId,
-            obtenerTareas
-        })
+    const obtenerTareas = async proyecto =>{
+        try {
+            const resultado = await clienteAxios.get('/api/tareas',{params:{proyecto}})
+            dispatch({
+                type: TAREAS_PROYECTO,
+                payload: resultado.data.tareas,
+            })
+        } catch (error) {
+            console.log(error);
+        }
     }
     //Agregar una tarea a un proyecto seleccionado
-    const agregarTarea = tarea =>{
-        tarea.id = uuidv4();
-        dispatch({
-            type: AGREGAR_TAREA,
-            payload: tarea
-        })
+    const agregarTarea = async tarea =>{
+        try {
+            const resultado = await clienteAxios.post('/api/tareas',tarea)
+            dispatch({
+                type: AGREGAR_TAREA,
+                payload: tarea
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     //Validar y mostrar error
@@ -96,7 +89,6 @@ const TareasState = props =>{
     }
     return(
         <TareaContext.Provider value={{
-            tareas: state.tareas,
             tareasproyecto: state.tareasproyecto,
             errortarea:state.errortarea,
             tareaseleccionada: state.tareaseleccionada,
