@@ -1,4 +1,4 @@
-import React,{useReducer,useContext} from 'react';
+import React,{useReducer,useContext,useEffect} from 'react';
 import authContext from './authContext';
 import AuthReducer from './authReducer';
 import clienteAxios from '../../config/axios';
@@ -32,6 +32,7 @@ const AuthState = props =>{
             //obtener el usuario
             usuarioAutenticado()
         } catch (error) {
+            console.log(error.msg.data.msg);
             const alerta ={
                 msg: error.response.data.msg,
                 categoria: 'alerta-error'
@@ -62,13 +63,42 @@ const AuthState = props =>{
             })
         }
     }
+
+    //Cuando el usuario inicia sesión
+    const iniciarSesion = async (datos) =>{
+        try {
+            const respuesta = await clienteAxios.post('/api/auth',datos);
+            dispatch({
+                type:LOGIN_EXITOSO,
+                payload: respuesta.data
+            })
+        } catch (error) {
+            const alerta ={
+                msg: error.response.data.msg,
+                categoria: 'alerta-error'
+            }
+            dispatch({
+                type:REGISTO_ERROR,
+                payload:alerta
+            })
+        }
+    }
+    //Cerrar sesión
+    const cerrarSesion = ()=>{
+        dispatch({
+            type:CERRAR_SESION,
+        })
+    }
     return(
         <authContext.Provider value={{
             token:state.token,
             autenticado:state.autenticado,
             usuario:state.usuario,
             mensaje:state.mensaje,
-            registrarUsuario
+            registrarUsuario,
+            iniciarSesion,
+            usuarioAutenticado,
+            cerrarSesion
         }}>
             {props.children}
         </authContext.Provider>
