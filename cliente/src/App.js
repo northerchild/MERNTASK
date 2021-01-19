@@ -8,7 +8,7 @@ import TareasState from './context/tareas/TareasState';
 import AlertaState from './context/alerta/alertaState';
 import AuthState from './context/auth/authState';
 import tokenAuth from './config/tokenAuth';
-
+import RutaPrivada from './components/rutas/RutaPrivada';
 //Revisar si tenemos un token valido 
 const token = localStorage.getItem('token');
 if(token){
@@ -25,7 +25,7 @@ function App() {
               <Switch>
                 <Route exact path="/" component={Login}/>
                 <Route exact path="/nueva-cuenta" component={NuevaCuenta}/>
-                <Route exact path="/proyectos" component={Proyectos}/>
+                <RutaPrivada exact path="/proyectos" component={Proyectos}/>
               </Switch>
             </Router>
           </AuthState>
